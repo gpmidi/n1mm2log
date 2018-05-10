@@ -1,6 +1,7 @@
 import socket
 import threading
 import logging
+import bs4
 
 
 class Listener(threading.Thread):
@@ -24,3 +25,4 @@ class Listener(threading.Thread):
             self.log.debug("%r opened as %r", self.outfile, f)
             while self.doRun:
                 data, addr = self.sock.recvfrom(1024 * 1024)
+                bs4.BeautifulSoup(data,'xml')
