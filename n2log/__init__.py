@@ -18,11 +18,12 @@ class Listener(threading.Thread):
         self.doRun = False
 
     def run(self):
-        self.log.debug("Running worker thread for n2log named %r", self.getName())
+        self.log.info("Running worker thread for n2log named %r", self.getName())
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((self.ip, self.port))
         with open(self.outfile, 'wb+') as f:
-            self.log.debug("%r opened as %r", self.outfile, f)
+            self.log.info("%r opened as %r", self.outfile, f)
             while self.doRun:
                 data, addr = self.sock.recvfrom(1024 * 1024)
-                bs4.BeautifulSoup(data,'xml')
+                self.log.debug("Got packet %r from %r",data[:20],addr)
+                doc = bs4.BeautifulSoup(data,'xml')
